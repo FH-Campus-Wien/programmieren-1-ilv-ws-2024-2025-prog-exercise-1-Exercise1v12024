@@ -1,0 +1,53 @@
+plugins {
+    id 'application'
+    id 'java'
+    id 'jvm-test-suite'
+}
+
+group 'at.ac.fhcampuswien'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+testing {
+    //noinspection GroovyAssignabilityCheck
+    suites {
+        configureEach {
+            useJUnitJupiter()
+            dependencies {
+                implementation('org.junit.jupiter:junit-jupiter-api:5.9.0')
+            }
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+//noinspection GroovyAssignabilityCheck
+run {
+    standardInput(System.in)
+}
+
+application {
+    mainClass  = 'at.ac.fhcampuswien.App'
+}
+
+allprojects {
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            sourceCompatibility = '1.8'
+            targetCompatibility = '1.8'
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+}
+tasks.withType(Test).configureEach {
+    systemProperty "file.encoding", "UTF-8"
+}
