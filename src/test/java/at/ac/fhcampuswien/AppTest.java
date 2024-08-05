@@ -4,7 +4,7 @@ import org.junit.jupiter.api.*;
 
 import java.io.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*; // Test
 
 @Timeout(2)
 class AppTest {
