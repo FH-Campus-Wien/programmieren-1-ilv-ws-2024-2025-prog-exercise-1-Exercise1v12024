@@ -1,0 +1,125 @@
+name: Autograding Tests
+'on':
+  - push
+  - repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+      - name: sayHelloWorld
+        id: sayhelloworld
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: sayHelloWorld
+          setup-command: ''
+          command: gradle test --tests at.ac.fhcampuswien.AppTest.sayHelloWorld
+          timeout: 1
+          max-score: 1
+      - name: helloRobot
+        id: hellorobot
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: helloRobot
+          setup-command: ''
+          command: gradle test --tests at.ac.fhcampuswien.AppTest.helloRobot
+          timeout: 1
+          max-score: 1
+      - name: sumOfLiterals
+        id: sumofliterals
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: sumOfLiterals
+          setup-command: ''
+          command: gradle test --tests at.ac.fhcampuswien.AppTest.sumOfLiterals
+          timeout: 1
+          max-score: 1
+      - name: addTwoNumbers
+        id: addtwonumbers
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: addTwoNumbers
+          setup-command: ''
+          command: gradle test --tests at.ac.fhcampuswien.AppTest.addTwoNumbers
+          timeout: 1
+          max-score: 1
+      - name: swapTwoNumbers
+        id: swaptwonumbers
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: swapTwoNumbers
+          setup-command: ''
+          command: gradle test --tests at.ac.fhcampuswien.AppTest.swapTwoNumbers
+          timeout: 1
+          max-score: 1
+      - name: compareTwoNumbers
+        id: comparetwonumbers
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: compareTwoNumbers
+          setup-command: ''
+          command: gradle test --tests at.ac.fhcampuswien.AppTest.compareTwoNumbers*
+          timeout: 1
+          max-score: 1
+      - name: ratingSalesPerson
+        id: ratingsalesperson
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: ratingSalesPerson
+          setup-command: ''
+          command: gradle test --tests at.ac.fhcampuswien.AppTest.ratingSalesPerson*
+          timeout: 1
+          max-score: 1
+      - name: getCommissionRate
+        id: getcommissionrate
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: getCommissionRate
+          setup-command: ''
+          command: gradle test --tests at.ac.fhcampuswien.AppTest.getCommissionRate*
+          timeout: 1
+          max-score: 1
+      - name: leapYear
+        id: leapyear
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: leapYear
+          setup-command: ''
+          command: gradle test --tests at.ac.fhcampuswien.AppTest.leapYear*
+          timeout: 1
+          max-score: 1
+      - name: transposeNumbers
+        id: transposenumbers
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: transposeNumbers
+          setup-command: ''
+          command: gradle test --tests at.ac.fhcampuswien.AppTest.transposedNumbers
+          timeout: 1
+          max-score: 1
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          SAYHELLOWORLD_RESULTS: "${{steps.sayhelloworld.outputs.result}}"
+          HELLOROBOT_RESULTS: "${{steps.hellorobot.outputs.result}}"
+          SUMOFLITERALS_RESULTS: "${{steps.sumofliterals.outputs.result}}"
+          ADDTWONUMBERS_RESULTS: "${{steps.addtwonumbers.outputs.result}}"
+          SWAPTWONUMBERS_RESULTS: "${{steps.swaptwonumbers.outputs.result}}"
+          COMPARETWONUMBERS_RESULTS: "${{steps.comparetwonumbers.outputs.result}}"
+          RATINGSALESPERSON_RESULTS: "${{steps.ratingsalesperson.outputs.result}}"
+          GETCOMMISSIONRATE_RESULTS: "${{steps.getcommissionrate.outputs.result}}"
+          LEAPYEAR_RESULTS: "${{steps.leapyear.outputs.result}}"
+          TRANSPOSENUMBERS_RESULTS: "${{steps.transposenumbers.outputs.result}}"
+        with:
+          runners: sayhelloworld,hellorobot,sumofliterals,addtwonumbers,swaptwonumbers,comparetwonumbers,ratingsalesperson,getcommissionrate,leapyear,transposenumbers
